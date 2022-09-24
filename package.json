@@ -8,7 +8,7 @@
     "./apps/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server:dev": "npm -w server run dev"
   },
   "repository": {
     "type": "git",
