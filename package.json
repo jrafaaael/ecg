@@ -1,0 +1,24 @@
+{
+  "name": "ecg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "./apps/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrafaaael/ecg.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jrafaaael/ecg/issues"
+  },
+  "homepage": "https://github.com/jrafaaael/ecg#readme"
+}
