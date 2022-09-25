@@ -11,8 +11,9 @@ const io = new Server(server, {
     origin: '*',
   },
 });
+let values = [];
 
-app.get('/ping', (req, res) => {
+app.get('/ping', (_, res) => {
   res.json({
     message: 'pong',
   });
@@ -24,7 +25,15 @@ parser.on('error', (err) => {
 
 parser.on('data', (chunk) => {
   const data = Number(chunk);
-  io.emit('data', data);
+  values.push({
+    value: data,
+    date: new Date().toISOString(),
+  });
+
+  if (values.length == 10) {
+    io.emit('data', values);
+    values = [];
+  }
 });
 
 server.listen(PORT, () => console.log(`listening on port ${PORT}`));
