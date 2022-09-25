@@ -8,7 +8,8 @@
     "./apps/*"
   ],
   "scripts": {
-    "server:dev": "npm -w server run dev"
+    "server:dev": "npm -w server run dev",
+    "client:dev": "npm -w client run dev"
   },
   "repository": {
     "type": "git",
