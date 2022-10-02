@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
 import { Chart, registerables } from 'chart.js';
 import { CHART_OPTIONS, INITIAL_DATA } from './utils/chart';
+import './fullscreen';
 
 Chart.register(...registerables);
 
