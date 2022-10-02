@@ -6,9 +6,12 @@ import "./fullscreen";
 
 Chart.register(...registerables);
 
-const socket = io(`${window.location.hostname}:8080`);
 const ctx = document.getElementById("myChart").getContext("2d");
 const pause = document.getElementById("pause");
+const slider = document.querySelector("input[type='range']");
+const dataQuantity = document.querySelector("output");
+
+const socket = io(`${window.location.hostname}:8080`);
 const chart = new Chart(ctx, {
   type: "line",
   data: INITIAL_DATA,
@@ -16,21 +19,31 @@ const chart = new Chart(ctx, {
 });
 let isPaused = false;
 
+slider.addEventListener("input", (e) => {
+  const quantity = Number(e.target.value);
+  const currentDataQuantity = chart.data.datasets[0].data.length;
+  dataQuantity.textContent = quantity;
+
+  chart.data.datasets[0].data.splice(0, currentDataQuantity - quantity);
+  chart.data.labels.splice(0, currentDataQuantity - quantity);
+  chart.update();
+});
+
 pause.addEventListener("click", () => (isPaused = !isPaused));
 
 socket.on("data", (data) => {
-  if (!isPaused) {
-    const values = data.map(({ value }) => value);
-    const dates = data.map(({ date }) => date);
+  if (isPaused) return;
 
-    chart.data.datasets[0].data.push(...values);
-    chart.data.labels.push(...dates);
+  const values = data.map(({ value }) => value);
+  const dates = data.map(({ date }) => date);
 
-    chart.update();
+  chart.data.datasets[0].data.push(...values);
+  chart.data.labels.push(...dates);
 
-    if (chart.data.datasets[0].data.length >= 100) {
-      chart.data.datasets[0].data.splice(0, 10);
-      chart.data.labels.splice(0, 10);
-    }
+  chart.update();
+
+  if (chart.data.datasets[0].data.length >= Number(dataQuantity.value)) {
+    chart.data.datasets[0].data.splice(0, 10);
+    chart.data.labels.splice(0, 10);
   }
 });
