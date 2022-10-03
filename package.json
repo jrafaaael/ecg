@@ -10,6 +10,8 @@
   "scripts": {
     "server:dev": "npm -w server run dev",
     "server:start": "npm -w server run start",
+    "client:dev": "npm -w client run dev",
+    "client:build": "npm -w client run build",
   },
   "repository": {
     "type": "git",
