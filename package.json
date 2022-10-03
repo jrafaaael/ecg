@@ -12,6 +12,7 @@
     "server:start": "npm -w server run start",
     "client:dev": "npm -w client run dev",
     "client:build": "npm -w client run build",
+    "start": "npm run client:build && npm run server:start"
   },
   "repository": {
     "type": "git",
