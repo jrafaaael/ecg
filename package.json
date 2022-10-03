@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "server:dev": "npm -w server run dev",
-    "client:dev": "npm -w client run dev"
+    "server:start": "npm -w server run start",
   },
   "repository": {
     "type": "git",
