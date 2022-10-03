@@ -12,6 +12,7 @@ const io = new Server(server, {
   },
 });
 let values = [];
+let length = 0;
 
 app.get("/ping", (_, res) => {
   res.json({
@@ -27,13 +28,15 @@ parser.on('data', (chunk) => {
   const data = Number(chunk);
   values.push({
     value: data,
-    date: new Date().toISOString(),
+    date: length,
   });
 
   if (values.length == 10) {
     io.emit('data', values);
     values = [];
   }
+
+  length++;
 });
 
 server.listen(PORT, () => console.log(`listening on port ${PORT}`));
