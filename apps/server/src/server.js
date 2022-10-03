@@ -1,6 +1,6 @@
-import express from 'express';
-import { Server } from 'socket.io';
-import http from 'http';
+import express from "express";
+import { Server } from "socket.io";
+import http from "http";
 import parser from './serial.js';
 
 const PORT = 8080;
@@ -13,9 +13,9 @@ const io = new Server(server, {
 });
 let values = [];
 
-app.get('/ping', (_, res) => {
+app.get("/ping", (_, res) => {
   res.json({
-    message: 'pong',
+    message: "pong",
   });
 });
 
