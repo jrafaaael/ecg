@@ -1,17 +1,25 @@
 export const CHART_OPTIONS = {
   animation: false,
-  // scales: {
-  //   yAxis: {
-  //     max: 50,
-  //   }
-  // },
+  scales: {
+    yAxis: {
+      max: 650,
+      grid: {
+        color: "#333",
+      },
+    },
+    xAxis: {
+      grid: {
+        color: "#333",
+      },
+    },
+  },
   plugins: {
     legend: {
       display: false,
     },
   },
-  pointBackgroundColor: 'rgba(0,0,0,0)',
-  pointBorderColor: 'rgba(0,0,0,0)',
+  pointBackgroundColor: "rgba(0,0,0,0)",
+  pointBorderColor: "rgba(0,0,0,0)",
 };
 
 export const INITIAL_DATA = {
@@ -19,7 +27,7 @@ export const INITIAL_DATA = {
   datasets: [
     {
       data: [0],
-      borderColor: 'rgb(75, 192, 192)',
+      borderColor: "rgb(0, 255, 0)",
     },
   ],
 };

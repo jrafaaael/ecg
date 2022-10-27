@@ -1,0 +1,13 @@
+setInterval(() => {
+  values.push({
+    value: Math.random() * 100,
+    date: length,
+  });
+
+  if (values.length == 10) {
+    io.emit("data", values);
+    values = [];
+  }
+
+  length++;
+}, 10);

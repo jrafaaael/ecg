@@ -21,6 +21,7 @@
   "homepage": "https://github.com/jrafaaael/ecg#readme",
   "dependencies": {
     "express": "^4.18.1",
+    "qrcode": "^1.5.1",
     "serialport": "^10.4.0",
     "socket.io": "^4.5.2"
   },
