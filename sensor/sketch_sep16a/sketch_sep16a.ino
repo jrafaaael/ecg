@@ -17,7 +17,7 @@ Timer<micros> timer = std::round(1e6 / f_s);
 auto filter = butter<6>(f_n);
 
 void setup() {
-  pinMode(A1, OUTPUT);
+  pinMode(12, OUTPUT);
   Serial.begin(9600);
 }
 
@@ -29,9 +29,9 @@ void loop() {
     if (xd > 600)
       xd = 300;
     if ((xd > 450) && (xd < 500))
-      digitalWrite(A1, HIGH);
+      digitalWrite(12, HIGH);
     else
-      digitalWrite(A1, LOW);
+      digitalWrite(12, LOW);
     Serial.println(xd);
   }
 }
