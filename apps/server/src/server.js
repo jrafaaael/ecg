@@ -1,16 +1,18 @@
 import http from "http";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
+import { join } from "path";
+
 import express from "express";
 import { Server } from "socket.io";
 import QRCode from "qrcode";
 
-const IP = getLocalIP() ?? "localhost";
 import { getLocalIP } from "./utils/ip.js";
 import parser from "./lib/serial.js";
+
+const ENV = process.env.NODE_ENV ?? "development";
+const IP = ENV === "production" ? getLocalIP() ?? "localhost" : "localhost";
 const PORT = 8080;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const URL = `http://${IP}:${PORT}`;
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -18,13 +20,13 @@ const io = new Server(server, {
     origin: "*",
   },
 });
+
 let values = [];
 let length = 0;
 
-app.use(express.static(join(__dirname, "..", "..", "client", "dist")));
-
+app.use(express.static(join(process.env.PWD, "..", "client", "dist")));
 app.use((_req, res, _next) => {
-  res.sendFile(join(__dirname, "..", "..", "client", "dist", "index.html"));
+  res.sendFile(join(process.env.PWD, "..", "client", "dist", "index.html"));
 });
 
 app.get("/ping", (_, res) => {
@@ -47,11 +49,11 @@ app.get("/ping", (_, res) => {
 //   length++;
 // }, 10);
 
-parser.on('error', (err) => {
+parser.on("error", (err) => {
   console.error(err);
 });
 
-parser.on('data', (chunk) => {
+parser.on("data", (chunk) => {
   const data = Number(chunk);
   values.push({
     value: data,
@@ -59,7 +61,7 @@ parser.on('data', (chunk) => {
   });
 
   if (values.length == 10) {
-    io.emit('data', values);
+    io.emit("data", values);
     values = [];
   }
 
@@ -67,11 +69,9 @@ parser.on('data', (chunk) => {
 });
 
 server.listen(PORT, IP, () => {
-  const url = `http://${IP}:${PORT}`;
-  console.log(`listening on ${url}`);
+  console.log(`listening on ${URL}`);
+
   if (IP !== "localhost") {
-    QRCode.toString(url, { type: "terminal" }, function (_, url) {
-      console.log(url);
-    });
+    QRCode.toString(URL, { type: "terminal" }, (_, url) => console.log(url));
   }
 });
