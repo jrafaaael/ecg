@@ -6,13 +6,13 @@ import { Server } from "socket.io";
 import QRCode from "qrcode";
 
 import { getLocalIP } from "./utils/get-local-ip.js";
-import parser from './lib/serialport.js'
+import parser from "./lib/serialport.js";
 
 const ENV = process.env.NODE_ENV ?? "development";
 const IP = ENV === "production" ? getLocalIP() ?? "localhost" : "localhost";
 const PORT = 8080;
 const URL = `http://${IP}:${PORT}`;
-const PROJECT_ROOT = process.env.PWD ?? process.cwd();
+const MONOREPO_APPS_ROOT = join(process.env.PWD ?? process.cwd(), "..");
 
 const app = express();
 const server = http.createServer(app);
@@ -25,10 +25,14 @@ const io = new Server(server, {
 let values = [];
 let length = 0;
 
-app.use(express.static(join(PROJECT_ROOT, "..", "client", "dist")));
-app.use((_req, res, _next) => {
-  res.sendFile(join(PROJECT_ROOT, "..", "client", "dist", "index.html"));
-});
+if (ENV === "production") {
+  app.use(express.static(join(MONOREPO_APPS_ROOT, "..", "client", "dist")));
+  app.use((_req, res, _next) => {
+    res.sendFile(
+      join(MONOREPO_APPS_ROOT, "..", "client", "dist", "index.html")
+    );
+  });
+}
 
 app.get("/ping", (_, res) => {
   res.json({
