@@ -12,6 +12,7 @@ const ENV = process.env.NODE_ENV ?? "development";
 const IP = ENV === "production" ? getLocalIP() ?? "localhost" : "localhost";
 const PORT = 8080;
 const URL = `http://${IP}:${PORT}`;
+const PROJECT_ROOT = process.env.PWD ?? process.cwd();
 
 const app = express();
 const server = http.createServer(app);
