@@ -5,8 +5,7 @@ import express from "express";
 import { Server } from "socket.io";
 import QRCode from "qrcode";
 
-import { getLocalIP } from "./utils/ip.js";
-import parser from "./lib/serial.js";
+import { getLocalIP } from "./utils/get-local-ip.js";
 
 const ENV = process.env.NODE_ENV ?? "development";
 const IP = ENV === "production" ? getLocalIP() ?? "localhost" : "localhost";
