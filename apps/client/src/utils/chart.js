@@ -17,6 +17,9 @@ export const CHART_OPTIONS = {
     legend: {
       display: false,
     },
+    tooltip: {
+      enabled: false,
+    },
   },
   pointBackgroundColor: "rgba(0,0,0,0)",
   pointBorderColor: "rgba(0,0,0,0)",
