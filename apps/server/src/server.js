@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 import QRCode from "qrcode";
 
 import { getLocalIP } from "./utils/get-local-ip.js";
+import parser from './lib/serialport.js'
 
 const ENV = process.env.NODE_ENV ?? "development";
 const IP = ENV === "production" ? getLocalIP() ?? "localhost" : "localhost";
@@ -24,9 +25,9 @@ const io = new Server(server, {
 let values = [];
 let length = 0;
 
-app.use(express.static(join(process.env.PWD, "..", "client", "dist")));
+app.use(express.static(join(PROJECT_ROOT, "..", "client", "dist")));
 app.use((_req, res, _next) => {
-  res.sendFile(join(process.env.PWD, "..", "client", "dist", "index.html"));
+  res.sendFile(join(PROJECT_ROOT, "..", "client", "dist", "index.html"));
 });
 
 app.get("/ping", (_, res) => {
@@ -41,7 +42,7 @@ app.get("/ping", (_, res) => {
 //     date: length,
 //   });
 
-//   if (values.length == 10) {
+//   if (values.length === 10) {
 //     io.emit("data", values);
 //     values = [];
 //   }
@@ -60,7 +61,7 @@ parser.on("data", (chunk) => {
     date: length,
   });
 
-  if (values.length == 10) {
+  if (values.length === 10) {
     io.emit("data", values);
     values = [];
   }
