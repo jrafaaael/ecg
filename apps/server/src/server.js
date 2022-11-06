@@ -4,10 +4,10 @@ import { dirname, join } from "path";
 import express from "express";
 import { Server } from "socket.io";
 import QRCode from "qrcode";
-import { getLocalIP } from "./ip.js";
-import parser from './serial.js';
 
 const IP = getLocalIP() ?? "localhost";
+import { getLocalIP } from "./utils/ip.js";
+import parser from "./lib/serial.js";
 const PORT = 8080;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
