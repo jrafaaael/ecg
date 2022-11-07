@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 import QRCode from "qrcode";
 
 import { getLocalIP } from "./utils/get-local-ip.js";
+import { getRandomIntInclusive } from "./utils/get-random-int-inclusive.js";
 import parser from "./lib/serialport.js";
 
 const ENV = process.env.NODE_ENV ?? "development";
@@ -42,7 +43,7 @@ app.get("/ping", (_, res) => {
 
 // setInterval(() => {
 //   values.push({
-//     value: Math.random() * 100,
+//     value: getRandomIntInclusive(200, 450),
 //     date: length,
 //   });
 
