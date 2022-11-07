@@ -31,8 +31,8 @@ export const INITIAL_DATA = {
   labels: [0],
   datasets: [
     {
-      data: [0],
       borderColor: "rgb(0, 255, 0)",
+      data: [300],
     },
   ],
 };
