@@ -10,7 +10,7 @@ import { getRandomIntInclusive } from "./utils/get-random-int-inclusive.js";
 import parser from "./lib/serialport.js";
 
 const ENV = process.env.NODE_ENV ?? "development";
-const IP = ENV === "production" ? getLocalIP() ?? "localhost" : "localhost";
+const IP = ENV === "production" ? getLocalIP() ?? "localhost" : "0.0.0.0";
 const PORT = 8080;
 const URL = `http://${IP}:${PORT}`;
 const MONOREPO_APPS_ROOT = join(process.env.PWD ?? process.cwd(), "..");
