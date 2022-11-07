@@ -3,6 +3,7 @@ export const CHART_OPTIONS = {
   scales: {
     yAxis: {
       max: 650,
+      min: 0,
       grid: {
         color: "#333",
       },
