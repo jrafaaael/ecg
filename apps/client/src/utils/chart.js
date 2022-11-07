@@ -24,6 +24,7 @@ export const CHART_OPTIONS = {
   },
   pointBackgroundColor: "rgba(0,0,0,0)",
   pointBorderColor: "rgba(0,0,0,0)",
+  maintainAspectRatio: false,
 };
 
 export const INITIAL_DATA = {
