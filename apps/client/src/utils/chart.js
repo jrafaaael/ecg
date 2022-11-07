@@ -2,7 +2,7 @@ export const CHART_OPTIONS = {
   animation: false,
   scales: {
     yAxis: {
-      max: 650,
+      max: 750,
       min: 0,
       grid: {
         color: "#333",
