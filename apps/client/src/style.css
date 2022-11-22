@@ -143,13 +143,14 @@ canvas {
   }
 
   #range-wrapper {
-    height: fit-content;
+    height: 100% !important;
     flex-direction: column-reverse;
     justify-content: flex-end;
   }
 
   input[type="range"] {
     width: 10px !important;
+    height: 80%;
     -webkit-appearance: slider-vertical;
   }
 
