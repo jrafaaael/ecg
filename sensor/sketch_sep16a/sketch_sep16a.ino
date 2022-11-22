@@ -6,18 +6,20 @@
 #define BUZZER A1
 #define LED 2
 
-// Sampling frequency
-const double f_s = 125;  // Hz
-// Cut-off frequency (-3 dB)
-const double f_c = 25;  // Hz
-// Normalized cut-off frequency
-const double f_n = 2 * f_c / f_s;
+const double f_s = 125;            // Sampling frequency. Hz
+const double f_c = 25;             // Cut-off frequency (-3 dB). Hz
+const double f_n = 2 * f_c / f_s;  // Normalized cut-off frequency
 
-// Sample timer
 Timer<micros> timer = std::round(1e6 / f_s);
+Timer<millis> bpm_timer = 5000;
 
-// Very simple Finite Impulse Response notch filter
 auto filter = butter<6>(f_n);
+
+const String ECG_STRING = "ecg:";
+const String BPM_STRING = "bpm:";
+
+bool would_count_beat = true;
+unsigned char beats = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -36,14 +38,29 @@ void loop() {
       filtered_ecg = 300;
     }
 
-    if ((filtered_ecg > 450) && (filtered_ecg < 500)) {
+    if ((filtered_ecg > 405) && (filtered_ecg < 500)) {
       digitalWrite(BUZZER, HIGH);
       digitalWrite(LED, HIGH);
+
+      if (would_count_beat) {
+        beats++;
+        would_count_beat = false;
+      }
     } else {
       digitalWrite(BUZZER, LOW);
       digitalWrite(LED, LOW);
+      would_count_beat = true;
     }
-    
-    Serial.println(filtered_ecg);
+
+    String ecg_to_send = ECG_STRING + filtered_ecg;
+    Serial.println(ecg_to_send);
+  }
+
+  if (bpm_timer) {
+    unsigned char bpm = beats * 6;
+    String bpm_to_send = BPM_STRING + bpm;
+    Serial.println(bpm_to_send);
+
+    beats = 0;
   }
 }

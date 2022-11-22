@@ -6,7 +6,7 @@ import { Server } from "socket.io";
 import QRCode from "qrcode";
 
 import { getLocalIP } from "./utils/get-local-ip.js";
-import { getRandomIntInclusive } from "./utils/get-random-int-inclusive.js";
+// import { getRandomIntInclusive } from "./utils/get-random-int-inclusive.js";
 import parser from "./lib/serialport.js";
 
 const ENV = process.env.NODE_ENV ?? "development";
@@ -27,10 +27,10 @@ let values = [];
 let length = 0;
 
 if (ENV === "production") {
-  app.use(express.static(join(MONOREPO_APPS_ROOT, "..", "client", "dist")));
+  app.use(express.static(join(MONOREPO_APPS_ROOT, "client", "dist")));
   app.use((_req, res, _next) => {
     res.sendFile(
-      join(MONOREPO_APPS_ROOT, "..", "client", "dist", "index.html")
+      join(MONOREPO_APPS_ROOT, "client", "dist", "index.html")
     );
   });
 }
@@ -55,23 +55,34 @@ app.get("/ping", (_, res) => {
 //   length++;
 // }, 10);
 
+// setInterval(() => {
+//   io.emit("bpm", getRandomIntInclusive(70, 75));
+// }, 5000);
+
 parser.on("error", (err) => {
   console.error(err);
 });
 
 parser.on("data", (chunk) => {
-  const data = Number(chunk);
-  values.push({
-    value: data,
-    date: length,
-  });
+  const [type, value] = chunk.split(":");
 
-  if (values.length === 10) {
-    io.emit("data", values);
-    values = [];
+  if (type === "ecg") {
+    const data = Number(value);
+
+    values.push({
+      value: data,
+      date: length,
+    });
+
+    if (values.length === 10) {
+      io.emit("data", values);
+      values = [];
+    }
+
+    length++;
+  } else if (type === "bpm") {
+    io.emit("bpm", value);
   }
-
-  length++;
 });
 
 server.listen(PORT, IP, () => {

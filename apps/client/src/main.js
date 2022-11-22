@@ -10,6 +10,7 @@ const ctx = document.getElementById("myChart").getContext("2d");
 const pause = document.getElementById("pause");
 const slider = document.querySelector("input[type='range']");
 const dataQuantity = document.querySelector("output");
+const bpm = document.querySelector("#bpm span");
 
 const socket = io(`${window.location.hostname}:8080`);
 const chart = new Chart(ctx, {
@@ -47,3 +48,9 @@ socket.on("data", (data) => {
     chart.data.labels.splice(0, 10);
   }
 });
+
+socket.on("bpm", (value) => {
+  if (isPaused) return;
+
+  bpm.textContent = value;
+})
